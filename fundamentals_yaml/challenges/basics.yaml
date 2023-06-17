@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mypod-basics-svc
+spec:
+  selector:
+    name: mypod-basics
+  ports:
+  - port: 8080
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mypod-basics-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: mypod-basics
+  template:
+    metadata:
+      labels:
+        name: mypod-basics
+    spec:
+      serviceAccountName: fundamentals-challenge
+      containers:
+      - name: mypod-basics
+        image: ghcr.io/learnk8s/labs-fundamentals:basics
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mypod-basics-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /v4
+        pathType: Prefix
+        backend:
+          service:
+            name: mypod-basics-svc
+            port:
+              number: 8080

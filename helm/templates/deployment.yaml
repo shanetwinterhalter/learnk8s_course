@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}
+spec: 
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      name: {{ template "name" . }}
+  template:
+    metadata:
+      labels:
+        name: {{ template "name" . }}
+        track: canary
+    spec:
+      containers:
+      - name: app
+        image: ghcr.io/learnk8s/podinfo:2023.03
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9898

@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod-internet
+spec:
+  serviceAccountName: fundamentals-challenge
+  containers:
+  - name: c3
+    image: ghcr.io/learnk8s/labs-fundamentals:surfing
+    ports:
+    - containerPort: 4567

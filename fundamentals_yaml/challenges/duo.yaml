@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod-duo
+spec:
+  serviceAccountName: fundamentals-challenge
+  containers:
+  - name: tweedledee
+    image: ghcr.io/learnk8s/labs-fundamentals:tweedledee
+  - name: tweedledum
+    image: ghcr.io/learnk8s/labs-fundamentals:tweedledum

@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod-create
+spec:
+  serviceAccountName: fundamentals-challenge
+  containers:
+  - name: c1
+    image: ghcr.io/learnk8s/labs-fundamentals:pod
