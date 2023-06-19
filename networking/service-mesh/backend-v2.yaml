@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+      version: "2"
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: "2"
+      annotations:
+    spec:
+      containers:
+      - name: container1
+        image: ghcr.io/learnk8s/app:2.0.0
+        ports:
+        - name: http
+          containerPort: 8080
