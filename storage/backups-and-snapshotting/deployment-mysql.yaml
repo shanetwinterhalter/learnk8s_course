@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mysql
+  template:
+    metadata:
+      labels:
+        name: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: ghcr.io/learnk8s/mariadb:2023.03
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysqlvolume
+        ports:
+        - containerPort: 3306
+          protocol: TCP
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: root
+        - name: MYSQL_DATABASE
+          value: sample
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: password
+      volumes:
+      - name: mysqlvolume
+        persistentVolumeClaim:
+          claimName: pvc-restore
